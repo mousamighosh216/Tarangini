@@ -1,0 +1,135 @@
+/* Google Font Suggestion */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #FFF;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  padding: 0 80px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LEFT SIDE */
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle {
+  width: 320px;
+  height: 320px;
+  background: #F8C8DD1F; /* 19% opacity */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle img {
+  width: 80px;
+}
+
+/* SLIDER DOTS */
+
+.dots {
+  margin-top: 30px;
+  display: flex;
+  gap: 8px;
+}
+
+.dots span {
+  width: 8px;
+  height: 8px;
+  background: #C4C4C4;
+  border-radius: 50%;
+}
+
+.dots .active {
+  width: 30px;
+  border-radius: 10px;
+  background: #E89B9B;
+}
+
+/* RIGHT SIDE */
+
+.right {
+  max-width: 500px;
+}
+
+.right h1 {
+  font-size: 42px;
+  font-weight: 600;
+  color: #2D2D2D;
+}
+
+.brand {
+  font-family: 'Playfair Display', serif;
+  color: #E89B9B;
+  font-style: italic;
+}
+
+.right h3 {
+  margin-top: 16px;
+  color: #E89B9B;
+  font-weight: 500;
+}
+
+.right p {
+  margin-top: 16px;
+  color: #6A7282;
+  line-height: 1.6;
+}
+
+/* BUTTON */
+
+.primary-btn {
+  margin-top: 40px;
+  padding: 16px 32px;
+  width: 100%;
+  border-radius: 16px;
+  border: none;
+  font-size: 16px;
+  color: white;
+  background: linear-gradient(90deg, #E89B9B, #F4A5A5);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+.skip {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: #6A7282;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .right {
+    margin-top: 40px;
+  }
+}
