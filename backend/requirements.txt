@@ -1,0 +1,9 @@
+# FastAPI
+# SQLAlchemy
+# Alembic
+# Pydantic
+# psycopg2
+# scikit-learn
+# python-dotenv
+# uvicorn
+# pytest

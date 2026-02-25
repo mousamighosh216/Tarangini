@@ -73,51 +73,85 @@ tarangini/
 │   │
 │   ├── app/
 │   │   ├── main.py
+│   │   ├── __init__.py
 │   │   │
 │   │   ├── core/
 │   │   │   ├── config.py
 │   │   │   ├── security.py
-│   │   │   └── dependencies.py
+│   │   │   ├── dependencies.py
+│   │   │   ├── logging.py
+│   │   │   └── constants.py
 │   │   │
 │   │   ├── db/
 │   │   │   ├── base.py
 │   │   │   ├── session.py
+│   │   │   ├── init_db.py
 │   │   │   └── models/
+│   │   │       ├── __init__.py
 │   │   │       ├── user.py
-│   │   │       ├── post.py
-│   │   │       ├── comment.py
+│   │   │       ├── forum.py
 │   │   │       ├── cycle.py
-│   │   │       └── consultant.py
+│   │   │       ├── consultant.py
+│   │   │       ├── booking.py
+│   │   │       └── availability.py
 │   │   │
 │   │   ├── schemas/
+│   │   │   ├── __init__.py
 │   │   │   ├── user_schema.py
-│   │   │   ├── post_schema.py
-│   │   │   ├── comment_schema.py
+│   │   │   ├── forum_schema.py
 │   │   │   ├── cycle_schema.py
+│   │   │   ├── consultant_schema.py
+│   │   │   ├── booking_schema.py
 │   │   │   └── prediction_schema.py
+│   │   │
+│   │   ├── repositories/
+│   │   │   ├── __init__.py
+│   │   │   ├── user_repo.py
+│   │   │   ├── forum_repo.py
+│   │   │   ├── consultant_repo.py
+│   │   │   └── booking_repo.py
 │   │   │
 │   │   ├── services/
 │   │   │   ├── auth_service.py
 │   │   │   ├── forum_service.py
 │   │   │   ├── cycle_service.py
 │   │   │   ├── consultant_service.py
+│   │   │   ├── booking_service.py
 │   │   │   └── prediction_service.py
 │   │   │
 │   │   ├── api/
+│   │   │   ├── __init__.py
 │   │   │   ├── auth_routes.py
 │   │   │   ├── forum_routes.py
 │   │   │   ├── cycle_routes.py
 │   │   │   ├── consultant_routes.py
+│   │   │   ├── booking_routes.py
 │   │   │   └── prediction_routes.py
 │   │   │
-│   │   └── ml/
-│   │       ├── train.py
-│   │       ├── preprocess.py
-│   │       ├── model.pkl
-│   │       └── evaluate.py
+│   │   ├── ml/
+│   │   │   ├── artifacts/
+│   │   │   │   └── model.pkl
+│   │   │   ├── data/
+│   │   │   ├── pipeline/
+│   │   │   │   ├── preprocess.py
+│   │   │   │   └── feature_engineering.py
+│   │   │   ├── training/
+│   │   │   │   ├── train.py
+│   │   │   │   └── evaluate.py
+│   │   │   └── inference.py
+│   │   │
+│   │   └── migrations/
+│   │
+│   ├── tests/
+│   │   ├── test_auth.py
+│   │   ├── test_forum.py
+│   │   ├── test_booking.py
+│   │   └── test_prediction.py
 │   │
 │   ├── requirements.txt
+│   ├── alembic.ini
 │   ├── .env
+│   ├── Dockerfile
 │   └── README.md
 │
 ├── frontend/
@@ -128,22 +162,39 @@ tarangini/
 │   │   ├── api/
 │   │   │   └── api.js
 │   │   │
+│   │   ├── services/
+│   │   │   ├── authService.js
+│   │   │   ├── forumService.js
+│   │   │   ├── consultantService.js
+│   │   │   ├── bookingService.js
+│   │   │   └── predictionService.js
+│   │   │
+│   │   ├── hooks/
+│   │   │   ├── useAuth.js
+│   │   │   ├── useForum.js
+│   │   │   └── useBooking.js
+│   │   │
 │   │   ├── components/
 │   │   │   ├── Navbar.jsx
 │   │   │   ├── PostCard.jsx
 │   │   │   ├── CommentTree.jsx
 │   │   │   ├── CycleCalendar.jsx
-│   │   │   └── ConsultantCard.jsx
+│   │   │   ├── ConsultantCard.jsx
+│   │   │   └── BookingModal.jsx
 │   │   │
 │   │   ├── pages/
 │   │   │   ├── Home.jsx
 │   │   │   ├── PostDetail.jsx
 │   │   │   ├── Prediction.jsx
 │   │   │   ├── Calendar.jsx
-│   │   │   └── Consultants.jsx
+│   │   │   ├── Consultants.jsx
+│   │   │   └── Bookings.jsx
 │   │   │
 │   │   ├── context/
 │   │   │   └── AuthContext.jsx
+│   │   │
+│   │   ├── utils/
+│   │   │   └── helpers.js
 │   │   │
 │   │   ├── App.jsx
 │   │   ├── main.jsx
