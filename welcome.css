@@ -95,41 +95,57 @@ body {
 
 /* BUTTON */
 
-.primary-btn {
-  margin-top: 40px;
-  padding: 16px 32px;
+.btn {
   width: 100%;
-  border-radius: 16px;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 500;
   border: none;
-  font-size: 16px;
+  border-radius: 16px;
   color: white;
-  background: linear-gradient(90deg, #E89B9B, #F4A5A5);
   cursor: pointer;
+  background: linear-gradient(90deg, #E89B9B, #F4A5A5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   transition: 0.3s ease;
 }
 
-.primary-btn:hover {
+.btn:hover {
   opacity: 0.9;
+}
+
+.arrow {
+  font-size: 20px;
 }
 
 .skip {
   display: block;
-  margin-top: 20px;
   text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
   color: #6A7282;
   text-decoration: none;
-  font-size: 14px;
+}
+
+.skip:hover {
+  text-decoration: underline;
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .container {
     flex-direction: column;
     text-align: center;
-    padding: 40px;
+    gap: 60px;
   }
 
   .right {
-    margin-top: 40px;
+    max-width: 100%;
+  }
+
+  .btn {
+    width: 100%;
   }
 }
