@@ -1,9 +1,7 @@
-# FastAPI
-# SQLAlchemy
-# Alembic
-# Pydantic
-# psycopg2
-# scikit-learn
-# python-dotenv
-# uvicorn
-# pytest
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+python-jose
+passlib[bcrypt]
+python-dotenv
