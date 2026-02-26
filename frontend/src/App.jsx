@@ -1,21 +1,56 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Me from "./pages/Me";
+import Welcome from "./components/Welcome/Welcome.jsx";
+import TrackYourCycle from "./components/TrackYourCycle/TrackYourCycle.jsx";
+import Privacy from "./components/Privacy/Privacy.jsx";
+import Personalization from "./components/Personalization/Personalization.jsx";
+
+// App – controls which onboarding screen is currently visible.
+//
+// Navigation flow:
+//   Welcome     → Continue → TrackYourCycle
+//   Welcome     → Skip     → Personalization
+//   TrackYourCycle → Continue → Privacy
+//   TrackYourCycle → Skip     → Personalization
+//   Privacy     → Get Started → Personalization
+//   Privacy     → Skip        → Personalization
 
 function App() {
+  const [currentPage, setCurrentPage] = useState("welcome");
+
+  const goTo = (page) => () => setCurrentPage(page);
+
+  if (currentPage === "trackCycle") {
+    return (
+      <TrackYourCycle
+        onContinue={goTo("privacy")}
+        onSkip={goTo("personalization")}
+      />
+    );
+  }
+
+  if (currentPage === "privacy") {
+    return (
+      <Privacy
+        onGetStarted={goTo("personalization")}
+        onSkip={goTo("personalization")}
+      />
+    );
+  }
+
+  if (currentPage === "personalization") {
+    return (
+      <Personalization
+        onCompleteSetup={() => console.log("Onboarding complete – navigate to main app")}
+      />
+    );
+  }
+
+  // Default: Welcome page
   return (
-    <Router>
-      <nav>
-        <Link to="/register">Register</Link> | <Link to="/login">Login</Link> | <Link to="/me">Profile</Link>
-      </nav>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/me" element={<Me />} />
-      </Routes>
-    </Router>
+    <Welcome
+      onContinue={goTo("trackCycle")}
+      onSkip={goTo("personalization")}
+    />
   );
 }
 
