@@ -1,23 +1,39 @@
 import React, { useState } from "react";
+
 import Welcome from "./components/Welcome/Welcome.jsx";
 import TrackYourCycle from "./components/TrackYourCycle/TrackYourCycle.jsx";
 import Privacy from "./components/Privacy/Privacy.jsx";
 import Personalization from "./components/Personalization/Personalization.jsx";
 
-// App – controls which onboarding screen is currently visible.
-//
-// Navigation flow:
-//   Welcome     → Continue → TrackYourCycle
-//   Welcome     → Skip     → Personalization
-//   TrackYourCycle → Continue → Privacy
-//   TrackYourCycle → Skip     → Personalization
-//   Privacy     → Get Started → Personalization
-//   Privacy     → Skip        → Personalization
+import Layout from "./components/layout/Layout";
+import Home from "./pages/Home";
+import Calendar from "./pages/Calendar";
+import AiScanner from "./pages/AiScanner";
+
+import { CycleProvider } from "./context/CycleContext";
 
 function App() {
+
+  // 🔹 onboarding state
   const [currentPage, setCurrentPage] = useState("welcome");
 
+  // 🔹 main app page state
+  const [appPage, setAppPage] = useState("home");
+
   const goTo = (page) => () => setCurrentPage(page);
+
+  // =========================
+  // ONBOARDING FLOW
+  // =========================
+
+  if (currentPage === "welcome") {
+    return (
+      <Welcome
+        onContinue={goTo("trackCycle")}
+        onSkip={goTo("personalization")}
+      />
+    );
+  }
 
   if (currentPage === "trackCycle") {
     return (
@@ -36,22 +52,49 @@ function App() {
       />
     );
   }
+  // =========================
+// PERSONALIZATION SCREEN
+//  =========================
 
-  if (currentPage === "personalization") {
+if (currentPage === "personalization") {
+  return (
+    <Personalization
+      onCompleteSetup={() => setCurrentPage("mainApp")}
+    />
+  );
+}
+
+  // =========================
+  // AFTER ONBOARDING → MAIN APP
+  // =========================
+
+  if (currentPage === "mainApp") {
+
+    const renderPage = () => {
+      switch (appPage) {
+        case "home":
+          return <Home onNavigate={setAppPage} />;
+        case "calendar":
+          return <Calendar />;
+        case "ai-scanner":
+          return <AiScanner />;
+        default:
+          return <Home onNavigate={setAppPage} />;
+      }
+    };
+
     return (
-      <Personalization
-        onCompleteSetup={() => console.log("Onboarding complete – navigate to main app")}
-      />
+      <CycleProvider>
+        <Layout currentPage={appPage} onNavigate={setAppPage}>
+          {renderPage()}
+        </Layout>
+      </CycleProvider>
     );
   }
 
-  // Default: Welcome page
-  return (
-    <Welcome
-      onContinue={goTo("trackCycle")}
-      onSkip={goTo("personalization")}
-    />
-  );
+  <LoadCalendarApi />
+
+  return null;
 }
 
 export default App;
