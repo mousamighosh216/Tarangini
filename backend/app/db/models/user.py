@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.db.models.forum import Post, Comment
+    from backend.app.db.models.prediction import PredictionLog
 
 class User(Base):
     __tablename__ = "users"
@@ -31,3 +32,4 @@ class User(Base):
     # Relationships 
     posts: Mapped[list["Post"]] = relationship("Post", back_populates="user") 
     comments: Mapped[list["Comment"]] = relationship("Comment", back_populates="user")
+    predictions: Mapped[list["PredictionLog"]] = relationship("PredictionLog", back_populates="user")
