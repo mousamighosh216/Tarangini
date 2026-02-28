@@ -12,6 +12,11 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: EmailStr
+    username: str  # ✅ added
+
+    model_config = {
+        "from_attributes": True
+    }
 
 class UserLogin(BaseModel):
     email: str
@@ -20,8 +25,13 @@ class UserLogin(BaseModel):
 class UserResponse(BaseModel):
     id: int
     email: EmailStr
+    username: str
     is_active: bool
     is_admin: bool
+
+    model_config = {
+        "from_attributes": True
+    }
 
 class Token(BaseModel):
     access_token: str

@@ -17,7 +17,6 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 def create_admin_user(db: Session):
     AuthService.register(db, settings.ADMIN_EMAIL, settings.ADMIN_PASSWORD, is_admin=True)
 
-
 @router.post("/register")
 def register(user: UserCreate, db: Session = Depends(get_db)):
     new_user = AuthService.register(db, user.email, user.password)

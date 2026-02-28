@@ -3,6 +3,7 @@ import Welcome from "./components/Welcome/Welcome.jsx";
 import TrackYourCycle from "./components/TrackYourCycle/TrackYourCycle.jsx";
 import Privacy from "./components/Privacy/Privacy.jsx";
 import Personalization from "./components/Personalization/Personalization.jsx";
+import AppRoutes from "./routes/routes.jsx";
 
 // App – controls which onboarding screen is currently visible.
 //
@@ -47,11 +48,12 @@ function App() {
 
   // Default: Welcome page
   return (
-    <Welcome
-      onContinue={goTo("trackCycle")}
-      onSkip={goTo("personalization")}
-    />
-  );
+    // <Welcome
+    //   onContinue={goTo("trackCycle")}
+    //   onSkip={goTo("personalization")}
+    // />
+    <AppRoutes />
+  )
 }
 
 export default App;

@@ -13,21 +13,29 @@
 # Contain DB queries
 
 from fastapi import FastAPI
-from app.api import auth_routes
+from app.api import auth_routes, forum_routes
 from app.db.session import get_db
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+from app.db.init_db import init_db   # ✅ ADD THIS
 
 app = FastAPI()
 
 @app.on_event("startup")
 def on_startup():
-    # Create admin user
+    # 1️⃣ Create tables first
+    init_db()
+
+    # 2️⃣ Then create admin user
     db: Session = next(get_db())
-    auth_routes.create_admin_user(db)
+    try:
+        auth_routes.create_admin_user(db)
+    finally:
+        db.close()
 
 # Include router
 app.include_router(auth_routes.router)
+app.include_router(forum_routes.router)
 
 app.add_middleware(
     CORSMiddleware,
