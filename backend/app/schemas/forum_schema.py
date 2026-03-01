@@ -22,7 +22,7 @@ class CommentResponse(BaseModel):
     content: str
     votes: int
     created_at: datetime
-    username: str   # ✅ Only in response
+    username: str = ""  # ✅ Only in response
 
     model_config = {"from_attributes": True}
 
@@ -36,7 +36,6 @@ class PostCreate(BaseModel):
     content: str
     tag: Optional[str] = None
 
-
 class PostResponse(BaseModel):
     id: int
     title: str
@@ -44,7 +43,7 @@ class PostResponse(BaseModel):
     tag: Optional[str]
     votes: int
     created_at: datetime
-    username: str   # ✅ Only in response
+    username: str = ""  # ✅ Only in response
     comments: List[CommentResponse] = []
 
     model_config = {"from_attributes": True}

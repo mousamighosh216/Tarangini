@@ -15,6 +15,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.db.models.user import User
     from app.db.models.forum import Post
+
+
 class Post(Base):
     __tablename__ = "posts"
 
@@ -32,6 +34,9 @@ class Post(Base):
     user: Mapped["User"] = relationship("User", back_populates="posts")
     comments: Mapped[list["Comment"]] = relationship("Comment", back_populates="post", cascade="all, delete-orphan")
 
+    @property 
+    def username(self): 
+        return self.user.email
 
 class Comment(Base):
     __tablename__ = "comments"
@@ -49,3 +54,6 @@ class Comment(Base):
     post: Mapped["Post"] = relationship("Post", back_populates="comments")
     user: Mapped["User"] = relationship("User", back_populates="comments")
     
+    @property 
+    def username(self): 
+        return self.user.email

@@ -49,8 +49,17 @@ def get_post(id: int, db: Session = Depends(get_db)):
     return post
 
 @router.post("/comments", response_model=CommentResponse)
-def create_comment(comment: CommentCreate, db: Session = Depends(get_db)):
-    new_comment = Comment(**comment.dict())
+def create_comment(
+    comment: CommentCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    new_comment = Comment(
+        content=comment.content,
+        post_id=comment.post_id,
+        user_id=current_user.id   # ✅ FIX
+    )
+
     return forum_repo.create_comment(db, new_comment)
 
 @router.post("/posts/{id}/vote") 
