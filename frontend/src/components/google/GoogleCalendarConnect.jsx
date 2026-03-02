@@ -14,7 +14,12 @@ export default function GoogleCalendarConnect() {
 
   return (
     <div>
-      <h3>Sync with Google Calendar</h3>
+      <h3 style={{borderRadius: 20,
+        padding:10,
+        
+
+       }}
+      >Sync with Google Calendar</h3>
 
       <GoogleLogin
         onSuccess={handleSuccess}

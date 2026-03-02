@@ -1,100 +1,161 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import Welcome from "./components/Welcome/Welcome.jsx";
 import TrackYourCycle from "./components/TrackYourCycle/TrackYourCycle.jsx";
 import Privacy from "./components/Privacy/Privacy.jsx";
-import Personalization from "./components/Personalization/Personalization.jsx";
+
+import PersonalizationPage from "./pages/PersonalizationPage";
+import AuthPage from "./pages/AuthPage";
 
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
-import AiScanner from "./pages/AiScanner";
+import PCOSManagement from "./pages/PCOSManagement";
+import ChatPage from "./pages/ChatPage";
+import ProfilePage from "./pages/ProfilePage";
 
+import PCOSOnboardingPopup from "./components/pcos/PCOSOnboardingPopup";
 import { CycleProvider } from "./context/CycleContext";
 
-function App() {
+/*
+────────────────────────────────────────────
+FINAL APP FLOW
 
-  // 🔹 onboarding state
-  const [currentPage, setCurrentPage] = useState("welcome");
+ONBOARDING:
+welcome → trackCycle → privacy → personalize → auth → pcos popup
 
-  // 🔹 main app page state
-  const [appPage, setAppPage] = useState("home");
+MAIN APP:
+home / calendar / pcos / chat / profile
+────────────────────────────────────────────
+*/
 
-  const goTo = (page) => () => setCurrentPage(page);
+export default function App() {
 
-  // =========================
-  // ONBOARDING FLOW
-  // =========================
+  // 🔹 Onboarding step controller
+  const [appStep, setAppStep] = useState("welcome");
 
-  if (currentPage === "welcome") {
+  // 🔹 User data
+  const [userName, setUserName] = useState("");
+  const [pcosProfile, setPcosProfile] = useState(null);
+
+  // 🔹 Main app navigation
+  const [currentPage, setCurrentPage] = useState("home");
+
+  // =================================================
+  // ONBOARDING SCREENS
+  // =================================================
+
+  if (appStep === "welcome") {
     return (
       <Welcome
-        onContinue={goTo("trackCycle")}
-        onSkip={goTo("personalization")}
+        onContinue={() => setAppStep("trackCycle")}
+        onSkip={() => setAppStep("personalize")}
       />
     );
   }
 
-  if (currentPage === "trackCycle") {
+  if (appStep === "trackCycle") {
     return (
       <TrackYourCycle
-        onContinue={goTo("privacy")}
-        onSkip={goTo("personalization")}
+        onContinue={() => setAppStep("privacy")}
+        onSkip={() => setAppStep("personalize")}
       />
     );
   }
 
-  if (currentPage === "privacy") {
+  if (appStep === "privacy") {
     return (
       <Privacy
-        onGetStarted={goTo("personalization")}
-        onSkip={goTo("personalization")}
+        onGetStarted={() => setAppStep("personalize")}
+        onSkip={() => setAppStep("personalize")}
       />
     );
   }
-  // =========================
-// PERSONALIZATION SCREEN
-//  =========================
 
-if (currentPage === "personalization") {
-  return (
-    <Personalization
-      onCompleteSetup={() => setCurrentPage("mainApp")}
-    />
-  );
-}
+  // =================================================
+  // PERSONALIZATION (Name)
+  // =================================================
 
-  // =========================
-  // AFTER ONBOARDING → MAIN APP
-  // =========================
-
-  if (currentPage === "mainApp") {
-
-    const renderPage = () => {
-      switch (appPage) {
-        case "home":
-          return <Home onNavigate={setAppPage} />;
-        case "calendar":
-          return <Calendar />;
-        case "ai-scanner":
-          return <AiScanner />;
-        default:
-          return <Home onNavigate={setAppPage} />;
-      }
-    };
-
+  if (appStep === "personalize") {
     return (
-      <CycleProvider>
-        <Layout currentPage={appPage} onNavigate={setAppPage}>
-          {renderPage()}
-        </Layout>
-      </CycleProvider>
+      <PersonalizationPage
+        onComplete={(name) => {
+          setUserName(name);
+          setAppStep("auth");
+        }}
+      />
     );
   }
 
-  <LoadCalendarApi />
+  // =================================================
+  // AUTHENTICATION PAGE
+  // =================================================
 
-  return null;
+  if (appStep === "auth") {
+    return (
+      <AuthPage
+        userName={userName}
+        onComplete={() => setAppStep("onboarding")}
+      />
+    );
+  }
+
+  // =================================================
+  // MAIN APP PAGES
+  // =================================================
+
+  const renderPage = () => {
+    switch (currentPage) {
+
+      case "home":
+  return (
+    <Home
+      onNavigate={setCurrentPage}
+      userName={userName}
+    />
+  );
+
+      case "calendar":
+        return <Calendar />;
+
+      case "pcos":
+        return (
+          <PCOSManagement
+            profile={pcosProfile}
+            onBack={() => setCurrentPage("home")}
+          />
+        );
+
+      case "chat":
+        return <ChatPage />;
+
+      case "profile":
+        return <ProfilePage userName={userName} />;
+
+      default:
+        return <Home onNavigate={setCurrentPage} />;
+    }
+  };
+
+  return (
+    <CycleProvider>
+
+      {/* PCOS Onboarding Popup */}
+      {appStep === "onboarding" && (
+        <PCOSOnboardingPopup
+          onComplete={(data) => {
+            setPcosProfile(data);
+            setAppStep("app");
+          }}
+          onSkip={() => setAppStep("app")}
+        />
+      )}
+
+      {/* Main App Layout */}
+      <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
+        {renderPage()}
+      </Layout>
+
+    </CycleProvider>
+  );
 }
-
-export default App;
