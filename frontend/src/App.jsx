@@ -1,50 +1,42 @@
 import { useState } from "react";
-
 import Welcome from "./components/Welcome/Welcome.jsx";
 import TrackYourCycle from "./components/TrackYourCycle/TrackYourCycle.jsx";
 import Privacy from "./components/Privacy/Privacy.jsx";
-
 import PersonalizationPage from "./pages/PersonalizationPage";
 import AuthPage from "./pages/AuthPage";
-
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import PCOSManagement from "./pages/PCOSManagement";
-// import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
-
 import PCOSOnboardingPopup from "./components/pcos/PCOSOnboardingPopup";
+import Forum from "./components/forum/Forum";
 import { CycleProvider } from "./context/CycleContext";
 
 /*
 ────────────────────────────────────────────
 FINAL APP FLOW
-
 ONBOARDING:
 welcome → trackCycle → privacy → personalize → auth → pcos popup
-
 MAIN APP:
-home / calendar / pcos / forum / profile
+home / calendar / pcos / lounge / profile
+Changes:
+- "Chat" nav replaced with "Lounge" (Forum.jsx)
+- Collapsible AI chat bubble lives on the Home page
 ────────────────────────────────────────────
 */
-
 export default function App() {
-
-  // 🔹 Onboarding step controller
+  // Onboarding step controller
   const [appStep, setAppStep] = useState("welcome");
-
-  // 🔹 User data
+  // User data
   const [userName, setUserName] = useState("");
   const [pcosProfile, setPcosProfile] = useState(null);
-
-  // 🔹 Main app navigation
+  // Main app navigation
   const [currentPage, setCurrentPage] = useState("home");
 
   // =================================================
   // ONBOARDING SCREENS
   // =================================================
-
   if (appStep === "welcome") {
     return (
       <Welcome
@@ -53,7 +45,6 @@ export default function App() {
       />
     );
   }
-
   if (appStep === "trackCycle") {
     return (
       <TrackYourCycle
@@ -62,7 +53,6 @@ export default function App() {
       />
     );
   }
-
   if (appStep === "privacy") {
     return (
       <Privacy
@@ -75,7 +65,6 @@ export default function App() {
   // =================================================
   // PERSONALIZATION (Name)
   // =================================================
-
   if (appStep === "personalize") {
     return (
       <PersonalizationPage
@@ -90,7 +79,6 @@ export default function App() {
   // =================================================
   // AUTHENTICATION PAGE
   // =================================================
-
   if (appStep === "auth") {
     return (
       <AuthPage
@@ -103,21 +91,17 @@ export default function App() {
   // =================================================
   // MAIN APP PAGES
   // =================================================
-
   const renderPage = () => {
     switch (currentPage) {
-
       case "home":
-  return (
-    <Home
-      onNavigate={setCurrentPage}
-      userName={userName}
-    />
-  );
-
+        return (
+          <Home
+            onNavigate={setCurrentPage}
+            userName={userName}
+          />
+        );
       case "calendar":
         return <Calendar />;
-
       case "pcos":
         return (
           <PCOSManagement
@@ -125,16 +109,10 @@ export default function App() {
             onBack={() => setCurrentPage("home")}
           />
         );
-
-      // case "chat":
-      //   return <ChatPage />;
-
       case "lounge":
-        return <Forum />;
-
+        return <Forum userName={userName} />;
       case "profile":
         return <ProfilePage userName={userName} />;
-
       default:
         return <Home onNavigate={setCurrentPage} />;
     }
@@ -142,7 +120,6 @@ export default function App() {
 
   return (
     <CycleProvider>
-
       {/* PCOS Onboarding Popup */}
       {appStep === "onboarding" && (
         <PCOSOnboardingPopup
@@ -153,12 +130,10 @@ export default function App() {
           onSkip={() => setAppStep("app")}
         />
       )}
-
       {/* Main App Layout */}
       <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
         {renderPage()}
       </Layout>
-
     </CycleProvider>
   );
 }

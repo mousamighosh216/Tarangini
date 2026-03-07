@@ -1,0 +1,104 @@
+/* ================================================
+   TARANGINI — RESPONSIVE CSS ADDITIONS
+   Add these styles to your existing index.css
+   ================================================ */
+
+/* Base reset for responsiveness */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Smooth scrolling ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Focus visible for accessibility ── */
+:focus-visible {
+  outline: 2px solid #e8928f;
+  outline-offset: 2px;
+}
+
+/* ── Prevent layout shift on sidebar transition ── */
+#root {
+  min-height: 100vh;
+}
+
+/* ── Responsive typography ── */
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* ── Safe area for mobile notch/home bar ── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .mobile-bottom-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ── Touch targets — ensure minimum 44px ── */
+@media (max-width: 768px) {
+  button {
+    min-height: 36px;
+  }
+  
+  /* Prevent tap highlight on mobile */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ── Sidebar animation ── */
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* ── Chat bubble pulse ── */
+@keyframes chatPulse {
+  0% { box-shadow: 0 0 0 0 rgba(232, 146, 143, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(232, 146, 143, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 146, 143, 0); }
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #f0d0d0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e8928f;
+}
+
+/* ── Print styles ── */
+@media print {
+  aside, .collapsible-chat, .mobile-top-bar {
+    display: none !important;
+  }
+  main {
+    width: 100% !important;
+  }
+}

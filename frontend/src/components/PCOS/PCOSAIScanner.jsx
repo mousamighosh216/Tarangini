@@ -250,7 +250,7 @@ function ResultDialog({ result, riskColor, onClose }) {
           style={{
             marginTop: "16px",
             width: "100%",
-            padding: "12px",
+            padading: "12px",
             background: "#e8928f",
             color: "#fff",
             border: "none",

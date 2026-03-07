@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CycleSummary from "../components/home/CycleSummary";
 import QuickActions from "../components/home/QuickActions";
 import { useCycle } from "../context/CycleContext";
+import CollapsibleChat from "../components/collapsiblechat/Collapsiblechat";
 
 const moods = [
   { label: "Energetic", icon: "☀️", bg: "#fffbea" },
@@ -11,9 +12,16 @@ const moods = [
 ];
 
 export default function Home({ onNavigate, userName }) {
-
   const { today, cycleDay, cycleLength } = useCycle();
   const [selectedMood, setSelectedMood] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const dayName = today.toLocaleDateString("en-US", {
     weekday: "long",
@@ -24,13 +32,11 @@ export default function Home({ onNavigate, userName }) {
 
   return (
     <div>
-
       {/* ================= HEADER ================= */}
-
       <div
         style={{
           background: "linear-gradient(135deg, #e8928f 0%, #d4787a 100%)",
-          padding: "28px 32px",
+          padding: isMobile ? "20px 16px" : "28px 32px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -41,39 +47,36 @@ export default function Home({ onNavigate, userName }) {
             style={{
               margin: 0,
               color: "#fff",
-              fontSize: "28px",
+              fontSize: isMobile ? "22px" : "28px",
               fontWeight: "700",
             }}
           >
-            Hello, {userName || "beautiful"}
+            Hello, {userName || "Beautiful"}
           </h1>
-
           <p
             style={{
               margin: "4px 0 0",
               color: "rgba(255,255,255,0.85)",
-              fontSize: "14px",
+              fontSize: isMobile ? "12px" : "14px",
             }}
           >
             {dayName}
           </p>
         </div>
-
         <div style={{ textAlign: "right" }}>
           <div
             style={{
               color: "#fff",
               fontWeight: "700",
-              fontSize: "20px",
+              fontSize: isMobile ? "16px" : "20px",
             }}
           >
             Cycle Day {cycleDay}
           </div>
-
           <div
             style={{
               color: "rgba(255,255,255,0.8)",
-              fontSize: "13px",
+              fontSize: isMobile ? "11px" : "13px",
             }}
           >
             of {cycleLength} days
@@ -82,29 +85,25 @@ export default function Home({ onNavigate, userName }) {
       </div>
 
       {/* ================= CONTENT ================= */}
-
       <div
         style={{
-          padding: "28px 32px",
+          padding: isMobile ? "16px" : "28px 32px",
           display: "grid",
-          gridTemplateColumns: "1fr 300px",
-          gap: "24px",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 300px",
+          gap: isMobile ? "16px" : "24px",
         }}
       >
         {/* ---------- LEFT COLUMN ---------- */}
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-
+        <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "14px" : "20px" }}>
           {/* Cycle Summary */}
           <CycleSummary />
 
           {/* ===== Mood Tracker ===== */}
-
           <div
             style={{
               background: "#fff",
               borderRadius: "16px",
-              padding: "24px",
+              padding: isMobile ? "16px" : "24px",
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
             }}
           >
@@ -112,20 +111,19 @@ export default function Home({ onNavigate, userName }) {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginBottom: "20px",
+                marginBottom: isMobile ? "14px" : "20px",
               }}
             >
               <h3
                 style={{
                   margin: 0,
-                  fontSize: "16px",
+                  fontSize: isMobile ? "15px" : "16px",
                   fontWeight: "600",
                   color: "#333",
                 }}
               >
                 How are you feeling?
               </h3>
-
               <svg
                 width="18"
                 height="18"
@@ -137,15 +135,17 @@ export default function Home({ onNavigate, userName }) {
                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
               </svg>
             </div>
-
-            <div style={{ display: "flex", gap: "12px" }}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: isMobile ? "8px" : "12px",
+            }}>
               {moods.map((mood) => (
                 <button
                   key={mood.label}
                   onClick={() => setSelectedMood(mood.label)}
                   style={{
-                    flex: 1,
-                    padding: "16px 8px",
+                    padding: isMobile ? "12px 4px" : "16px 8px",
                     borderRadius: "14px",
                     border:
                       selectedMood === mood.label
@@ -160,8 +160,8 @@ export default function Home({ onNavigate, userName }) {
                     transition: "all 0.2s",
                   }}
                 >
-                  <span style={{ fontSize: "24px" }}>{mood.icon}</span>
-                  <span style={{ fontSize: "12px", color: "#888" }}>
+                  <span style={{ fontSize: isMobile ? "20px" : "24px" }}>{mood.icon}</span>
+                  <span style={{ fontSize: isMobile ? "10px" : "12px", color: "#888" }}>
                     {mood.label}
                   </span>
                 </button>
@@ -170,19 +170,18 @@ export default function Home({ onNavigate, userName }) {
           </div>
 
           {/* ===== Health Insights ===== */}
-
           <div
             style={{
               background: "#fff",
               borderRadius: "16px",
-              padding: "24px",
+              padding: isMobile ? "16px" : "24px",
               boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
             }}
           >
             <h3
               style={{
                 margin: "0 0 16px",
-                fontSize: "16px",
+                fontSize: isMobile ? "15px" : "16px",
                 fontWeight: "600",
                 color: "#333",
                 display: "flex",
@@ -193,7 +192,6 @@ export default function Home({ onNavigate, userName }) {
               <span style={{ color: "#7ab89a" }}>↗</span>
               Health Insights
             </h3>
-
             <div
               style={{
                 background: "#f5fff8",
@@ -202,22 +200,13 @@ export default function Home({ onNavigate, userName }) {
                 marginBottom: "12px",
               }}
             >
-              <p
-                style={{
-                  margin: "0 0 4px",
-                  fontWeight: "500",
-                  color: "#333",
-                  fontSize: "14px",
-                }}
-              >
+              <p style={{ margin: "0 0 4px", fontWeight: "500", color: "#333", fontSize: "14px" }}>
                 💧 Stay hydrated during ovulation
               </p>
-
               <p style={{ margin: 0, fontSize: "13px", color: "#888" }}>
                 Drinking 8 glasses of water helps with hormonal balance
               </p>
             </div>
-
             <div
               style={{
                 background: "#fff8f5",
@@ -225,17 +214,9 @@ export default function Home({ onNavigate, userName }) {
                 padding: "16px",
               }}
             >
-              <p
-                style={{
-                  margin: "0 0 4px",
-                  fontWeight: "500",
-                  color: "#333",
-                  fontSize: "14px",
-                }}
-              >
+              <p style={{ margin: "0 0 4px", fontWeight: "500", color: "#333", fontSize: "14px" }}>
                 🧘 Your cycle is regular
               </p>
-
               <p style={{ margin: 0, fontSize: "13px", color: "#888" }}>
                 You've been consistent for 3 months. Great job!
               </p>
@@ -244,9 +225,11 @@ export default function Home({ onNavigate, userName }) {
         </div>
 
         {/* ---------- RIGHT COLUMN ---------- */}
-
-        <QuickActions onNavigate={onNavigate} />
+        <QuickActions onNavigate={onNavigate} isMobile={isMobile} />
       </div>
+
+      {/* ===== Collapsible AI Chat (floating bubble) ===== */}
+      <CollapsibleChat />
     </div>
   );
 }
