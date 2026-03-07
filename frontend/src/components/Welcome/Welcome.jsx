@@ -1,7 +1,7 @@
 import React from "react";
-import "./welcome.css";
+import "../../styles/welcome.css";
 import WelcomeContent from "./WelcomeContent";
-import heartImg from "./heart.png";
+import heartImg from "../../assets/heart.png";
 
 // Welcome – root page component
 // onContinue and onSkip are passed in from App.jsx

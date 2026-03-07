@@ -1,7 +1,7 @@
 import React from "react";
-import "./trackYourCycle.css";
+import "../../styles/trackYourCycle.css";
 import TrackCycleContent from "./TrackCycleContent";
-import calendarImg from "./calendar.png";
+import calendarImg from "../../assets/calendar.png";
 
 // TrackYourCycle – second onboarding page
 // onContinue and onSkip are passed in from App.jsx

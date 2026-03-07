@@ -1,6 +1,6 @@
 import React from "react";
 import WelcomeButtons from "./WelcomeButtons";
-import logoImg from "./logo.png";
+import logoImg from "../../assets/logo.png";
 
 // WelcomeContent – right panel (heading, tagline, body text, buttons)
 function WelcomeContent({ onContinue, onSkip }) {

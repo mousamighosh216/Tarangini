@@ -7,7 +7,7 @@ export default function QuickActions({ onNavigate }) {
           <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
         </svg>
       ),
-      label: "AI Scanner",
+      label: "Predictor",
       sublabel: "Upload reports for PCOS analysis",
       page: "ai-scanner",
       bg: "#faf0fa",

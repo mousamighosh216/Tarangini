@@ -11,7 +11,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import PCOSManagement from "./pages/PCOSManagement";
-import ChatPage from "./pages/ChatPage";
+// import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
 
 import PCOSOnboardingPopup from "./components/pcos/PCOSOnboardingPopup";
@@ -25,7 +25,7 @@ ONBOARDING:
 welcome → trackCycle → privacy → personalize → auth → pcos popup
 
 MAIN APP:
-home / calendar / pcos / chat / profile
+home / calendar / pcos / forum / profile
 ────────────────────────────────────────────
 */
 
@@ -126,8 +126,11 @@ export default function App() {
           />
         );
 
-      case "chat":
-        return <ChatPage />;
+      // case "chat":
+      //   return <ChatPage />;
+
+      case "lounge":
+        return <Forum />;
 
       case "profile":
         return <ProfilePage userName={userName} />;

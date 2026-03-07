@@ -1,7 +1,7 @@
 import React from "react";
-import "./privacy.css";
+import "../../styles/privacy.css";
 import PrivacyContent from "./PrivacyContent";
-import shieldImg from "./shield.png";
+import shieldImg from "../../assets/shield.png";
 
 // Privacy – third onboarding page
 // Left panel: shield illustration + pagination dots (dot 3 active)

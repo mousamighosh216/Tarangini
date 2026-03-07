@@ -1,14 +1,85 @@
 import { useState } from "react";
 
 const CORE_QUESTIONS = [
-  { id: "age", label: "Age", type: "number", placeholder: "Enter your age", unit: "years", hint: "Hormonal baselines shift significantly between teens and 30s." },
-  { id: "bmi", label: "BMI", type: "number", placeholder: "e.g. 24.5", step: "0.1", hint: "High correlation between insulin resistance and PCOS." },
-  { id: "cycleRegular", label: "Are your periods regular?", type: "bool", hint: "The #1 indicator of ovulatory dysfunction (Rotterdam Criterion 1)." },
-  { id: "cycleLength", label: "Average Cycle Length", type: "number", placeholder: "e.g. 28", unit: "days", hint: "Cycles >35 days are a strong statistical red flag." },
-  { id: "weightGain", label: "Have you experienced sudden weight gain?", type: "bool", hint: "Captures sudden metabolic changes not shown by static BMI." },
-  { id: "hirsutism", label: "Do you have excessive hair growth (face/body)?", type: "bool", hint: "Proxy for high androgens (Rotterdam Criterion 2)." },
-  { id: "skinDarkening", label: "Do you notice skin darkening in body folds?", type: "bool", hint: "Direct clinical sign of high insulin (Acanthosis Nigricans)." },
-  { id: "acne", label: "Do you have persistent acne?", type: "bool", hint: "A key physical manifestation of hormonal imbalance." },
+  { 
+    id: "age", 
+    label: "Age", 
+    type: "number", 
+    placeholder: "Enter your age", 
+    min: 12, 
+    max: 60, 
+    unit: "years", 
+    hint: "Hormonal patterns naturally evolve with age — this helps us personalize insights for you." 
+  },
+
+  { 
+    id: "height", 
+    label: "Height", 
+    type: "number", 
+    placeholder: "e.g. 165", 
+    step: "0.1",
+    min: 90, 
+    max: 200,
+    unit: "cm",
+    hint: "Used along with weight to understand your overall metabolic profile." 
+  },
+
+  { 
+    id: "weight", 
+    label: "Weight", 
+    type: "number", 
+    placeholder: "e.g. 60", 
+    step: "0.1",
+    min: 20, 
+    max: 200,
+    unit: "kg",
+    hint: "Helps us assess how your body may be responding to hormonal changes." 
+  },
+
+  { 
+    id: "cycleRegular", 
+    label: "Are your periods regular?", 
+    type: "bool", 
+    hint: "Cycle patterns give helpful insight into ovulation and overall reproductive health." 
+  },
+
+  { 
+    id: "cycleLength", 
+    label: "Average Cycle Length", 
+    type: "number", 
+    placeholder: "e.g. 28", 
+    min: 1,
+    unit: "days", 
+    hint: "Cycle length can vary — this helps us understand your unique rhythm." 
+  },
+
+  { 
+    id: "weightGain", 
+    label: "Have you noticed recent weight changes?", 
+    type: "bool", 
+    hint: "Sudden changes can sometimes reflect shifts in metabolism or hormones." 
+  },
+
+  { 
+    id: "hirsutism", 
+    label: "Do you notice increased hair growth (face/body)?", 
+    type: "bool", 
+    hint: "Hair growth patterns can offer insight into androgen balance." 
+  },
+
+  { 
+    id: "skinDarkening", 
+    label: "Do you notice skin darkening in body folds?", 
+    type: "bool", 
+    hint: "Certain skin changes can be linked to how the body processes insulin." 
+  },
+
+  { 
+    id: "acne", 
+    label: "Do you experience persistent acne?", 
+    type: "bool", 
+    hint: "Skin health can sometimes reflect internal hormonal activity." 
+  },
 ];
 
 const EXTRA_QUESTIONS = [
@@ -160,7 +231,7 @@ export default function PCOSOnboardingPopup({ onComplete, onSkip }) {
             )}
           </div>
 
-          {step === 0 && (
+          {/* {step === 0 && (
             <button onClick={onSkip} style={{
               width: "100%", marginTop: "12px", padding: "10px",
               background: "none", border: "none", color: "#bbb",
@@ -168,7 +239,7 @@ export default function PCOSOnboardingPopup({ onComplete, onSkip }) {
             }}>
               Fill this later from PCOS Management page
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>
@@ -189,11 +260,16 @@ function CoreQuestion({ question, value, onChange }) {
         <div style={{ position: "relative" }}>
           <input
             type="number"
-            step={question.step || "1"}
+            step={question.step || 1}
+            min={question.min}
+            max={question.max}
             placeholder={question.placeholder}
             value={value || ""}
-            onChange={e => onChange(e.target.value)}
-            style={{ ...inputStyle, paddingRight: question.unit ? "48px" : "14px" }}
+            onChange={(e) => onChange(e.target.value)}
+            style={{ 
+              ...inputStyle, 
+              paddingRight: question.unit ? "48px" : "14px" 
+            }}
           />
           {question.unit && (
             <span style={{
@@ -208,7 +284,7 @@ function CoreQuestion({ question, value, onChange }) {
         <div style={{ display: "flex", gap: "10px" }}>
           <button style={boolStyle(value, "yes")} onClick={() => onChange("yes")}>Yes</button>
           <button style={boolStyle(value, "no")} onClick={() => onChange("no")}>No</button>
-          <button style={boolStyle(value, "unsure")} onClick={() => onChange("unsure")}>Not Sure</button>
+          {/* <button style={boolStyle(value, "unsure")} onClick={() => onChange("unsure")}>Not Sure</button> */}
         </div>
       )}
     </div>
